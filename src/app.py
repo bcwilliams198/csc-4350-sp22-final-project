@@ -5,6 +5,7 @@
 from os import environ, getenv, urandom
 
 import json
+import os
 
 import requests
 
@@ -52,12 +53,18 @@ environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-if app.config["SQLALCHEMY_DATABASE_URI"].startswith("postgres://"):
-    app.config["SQLALCHEMY_DATABASE_URI"] = app.config[
-        "SQLALCHEMY_DATABASE_URI"
-    ].replace("postgres://", "postgresql://")
+# if app.config["SQLALCHEMY_DATABASE_URI"].startswith("postgres://"):
+#     app.config["SQLALCHEMY_DATABASE_URI"] = app.config[
+#         "SQLALCHEMY_DATABASE_URI"
+#     ].replace("postgres://", "postgresql://")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
+# app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
+uri = os.getenv("DATABASE_URL")
+if uri and uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+
+# Point SQLAlchemy to your Heroku database
+app.config["SQLALCHEMY_DATABASE_URI"] = uri
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = urandom(16)
 # app.secret_key = environ.get("SECRET_KEY") or urandom(24)
