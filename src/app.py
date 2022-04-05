@@ -51,7 +51,7 @@ def get_google_provider_cfg():
 
 environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
+# app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # if app.config["SQLALCHEMY_DATABASE_URI"].startswith("postgres://"):
 #     app.config["SQLALCHEMY_DATABASE_URI"] = app.config[
